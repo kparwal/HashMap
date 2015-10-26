@@ -1,14 +1,17 @@
 package fellows.kpcb;
-import sun.rmi.server.InactiveGroupException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.Console;
 
 public class Main {
     public static void main(String[] args) {
 	    // write your code here
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Console console = System.console();
+        boolean IDEEnvironment = false;
+        if (console == null) {
+            IDEEnvironment = true;
+            System.out.println("No console: non-interactive mode!");
+            System.exit(0);
+        }
         HashMap<Integer> hashMap = new HashMap<>();
         System.out.println("***********************************************************************");
         System.out.println("HashMap CLI by Keshav Parwal");
@@ -23,12 +26,12 @@ public class Main {
         String input = "";
         while (!input.equals("exit")) {
             System.out.print("> ");
-            try {
-                input = reader.readLine();
-                reader.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            if (IDEEnvironment) {
+                System.out.println("Please run this in a native command line environment! You are probably trying" +
+                        "to run this from an IDE . Navigate to the folder containing the jar and run" +
+                        "\n\'java -jar HashMap.jar\'");
+                return;
+            } 
             String [] arguments = parseArguments(input);
             String command = arguments[0];
             try {
